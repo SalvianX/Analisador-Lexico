@@ -1,0 +1,92 @@
+tabela_hash = {}
+tamanho = int(input())
+for i in range(tamanho):
+    tabela_hash[i] = []
+
+def inserir(item):
+    chave = item % tamanho
+    lista = tabela_hash[chave]
+    lista.append(item)
+    lista.sort()
+
+
+def remover(item):
+    chave = item % tamanho
+
+    if item in tabela_hash[chave]:
+        lista = tabela_hash[chave]
+        lista.remove(item)
+        lista.sort()
+
+    else:
+        pass
+
+def procurar(item):
+    print('BUSCA POR %d' %item)
+
+    chave = item % tamanho
+    total = 0
+    posicao = 0
+    encotrado = False
+
+    for i in tabela_hash:
+        total = total + len(tabela_hash[i])
+
+    lista = tabela_hash[chave]
+
+    for k in lista:
+        if encotrado == False:
+            if k == item:
+                posicao +=1
+                encotrado = True
+                break
+            else:
+                posicao += 1
+
+        else:
+            break
+
+    print('numero de elementos da tabela hash: %d' %total)
+
+    if encotrado == True:
+        print('elemento %d encontrado!' %item)
+
+    else:
+        print('elemento nao encontrado!')
+
+    print('numero de elementos acessados na tabela hash: %d' %posicao)
+
+def imprimir():
+    print('imprimindo tabela hash:')
+    for i in tabela_hash:
+        print('[%s]:' %i, end=(''))
+        if len(tabela_hash[i]) > 0:
+            for j in tabela_hash[i]:
+                print(j, end=('=>'))
+            print()
+    
+        else:
+            print('Lista vazia!')
+
+
+
+while True:
+    entrada = input().split(' ')
+
+    if entrada[0] == 'a':
+        item = int(entrada[1])
+        inserir(item)
+
+    elif entrada[0] == 'r':
+        item = int(entrada[1])
+        remover(item)
+
+    elif entrada[0] == 'p':
+        item = int(entrada[1])
+        procurar(item)
+
+    elif entrada[0] == 'i':
+        imprimir()
+
+    elif entrada[0] == 'f':
+        break
