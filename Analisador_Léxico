@@ -1,0 +1,84 @@
+# Aluno: Salvian dos Santos Barbosa
+# Matricula: 21110654
+# Disciplina: Compiladores
+# Professor: Alexandre Paes
+
+import tkinter as tk
+from tkinter import scrolledtext
+from ply import lex
+
+# Definição dos tokens
+tokens = (
+    'NUMERO',
+    'MAIS',
+    'MENOS',
+    'VEZES',
+    'DIVIDIDO',
+    'PARENTESE_ESQ',
+    'PARENTESE_DIR',
+    'ERRO',
+)
+
+# Regras dos tokens
+t_MAIS = r'\+'
+t_MENOS = r'-'
+t_VEZES = r'\*'
+t_DIVIDIDO = r'/'
+t_PARENTESE_ESQ = r'\('
+t_PARENTESE_DIR = r'\)'
+
+# ignorar os espaços em branco
+t_ignore = ' \t'
+
+# regra para números inteiros
+def t_NUMERO(t):
+    r'\d+'
+    t.value = int(t.value)
+    return t
+
+# função para tartar os erros
+def t_error(t):
+    print(f"Caractere ilegal '{t.value[0]}'")
+    t.lexer.skip(1)
+    return t
+
+# construção do lex
+lexer = lex.lex()
+
+# função para analise lexica
+def analisar():
+    codigo = entrada_codigo.get("1.0", tk.END)
+    lexer.input(codigo)
+    saida_tokens.delete("1.0", tk.END)
+    saida_erros.delete("1.0", tk.END)  # Limpar mensagens de erro
+    while True:
+        tok = lexer.token()
+        if not tok:
+            break
+        if tok.type == 'ERRO':
+            saida_erros.insert(tk.END, f"Erro: Caractere ilegal '{tok.value}'\n")
+        else:
+            saida_tokens.insert(tk.END, str(tok) + '\n')
+
+# criando a janeal
+janela = tk.Tk()
+janela.title("Analisador Léxico")
+
+# aarea de entrada de código
+entrada_codigo = scrolledtext.ScrolledText(janela, width=40, height=10)
+entrada_codigo.pack(padx=10, pady=10)
+
+# botão para analisar o código
+botao_analisar = tk.Button(janela, text="Analisar", command=analisar)
+botao_analisar.pack(pady=5)
+
+# area de exibição dos tokens
+saida_tokens = scrolledtext.ScrolledText(janela, width=40, height=10)
+saida_tokens.pack(padx=10, pady=10)
+
+#exibição dos erros da análise
+saida_erros = scrolledtext.ScrolledText(janela, width=40, height=5, bg="pink")
+saida_erros.pack(padx=10, pady=10)
+
+# Iniciar a execução do programa
+janela.mainloop()
