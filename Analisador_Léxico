@@ -1,8 +1,3 @@
-# Aluno: Salvian dos Santos Barbosa
-# Matricula: 21110654
-# Disciplina: Compiladores
-# Professor: Alexandre Paes
-
 import tkinter as tk
 from tkinter import scrolledtext
 from ply import lex
@@ -36,16 +31,21 @@ def t_NUMERO(t):
     t.value = int(t.value)
     return t
 
-# função para tartar os erros
+# variável global para armazenar a saída de erros
+saida_erros = None
+
+# função para tratar os erros
 def t_error(t):
-    print(f"Caractere ilegal '{t.value[0]}'")
+    global saida_erros
+    erro = f"Erro: Caractere ilegal '{t.value[0]}'\n"
+    saida_erros.insert(tk.END, erro)
     t.lexer.skip(1)
     return t
 
-# construção do lex
+# construção do lexer
 lexer = lex.lex()
 
-# função para analise lexica
+# função para análise léxica
 def analisar():
     codigo = entrada_codigo.get("1.0", tk.END)
     lexer.input(codigo)
@@ -56,15 +56,16 @@ def analisar():
         if not tok:
             break
         if tok.type == 'ERRO':
-            saida_erros.insert(tk.END, f"Erro: Caractere ilegal '{tok.value}'\n")
+            erro = f"Erro: Caractere ilegal '{tok.value}'\n"
+            saida_erros.insert(tk.END, erro)
         else:
             saida_tokens.insert(tk.END, str(tok) + '\n')
 
-# criando a janeal
+# criando a janela
 janela = tk.Tk()
 janela.title("Analisador Léxico")
 
-# aarea de entrada de código
+# área de entrada de código
 entrada_codigo = scrolledtext.ScrolledText(janela, width=40, height=10)
 entrada_codigo.pack(padx=10, pady=10)
 
@@ -72,11 +73,11 @@ entrada_codigo.pack(padx=10, pady=10)
 botao_analisar = tk.Button(janela, text="Analisar", command=analisar)
 botao_analisar.pack(pady=5)
 
-# area de exibição dos tokens
+# área de exibição dos tokens
 saida_tokens = scrolledtext.ScrolledText(janela, width=40, height=10)
 saida_tokens.pack(padx=10, pady=10)
 
-#exibição dos erros da análise
+# área de exibição dos erros
 saida_erros = scrolledtext.ScrolledText(janela, width=40, height=5, bg="pink")
 saida_erros.pack(padx=10, pady=10)
 
