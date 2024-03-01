@@ -45,7 +45,11 @@ tokens = [
     'PONTO_E_VIRGULA',
     'COLCHETE_ESQ', 
     'COLCHETE_DIR',
-    'PONTO',   
+    'PONTO',  
+    'CHAVE_ESQ',
+    'CHAVE_DIR',
+    'ASPAS' ,
+
 
 ] + list(reserved.values())
 
@@ -65,10 +69,13 @@ t_DIFERENTE = r'!='
 t_ATRIBUICAO = r'='
 t_DOIS_PONTOS = r':'
 t_VIRGULA = r','
+t_ASPAS = r'\''
 t_PONTO_E_VIRGULA = r';'
 t_COLCHETE_ESQ = r'\['  
 t_COLCHETE_DIR = r'\]' 
 t_PONTO = r'\.' 
+t_CHAVE_ESQ = r'\{'
+t_CHAVE_DIR = r'\}'
 
 # função para os números inteiros
 def t_NUMERO(t):
