@@ -1,3 +1,5 @@
+#Analisador lexico
+
 import tkinter as tk
 from tkinter import scrolledtext
 from ply import lex
@@ -42,7 +44,8 @@ tokens = [
     'VIRGULA',
     'PONTO_E_VIRGULA',
     'COLCHETE_ESQ', 
-    'COLCHETE_DIR'   
+    'COLCHETE_DIR',
+    'PONTO',   
 
 ] + list(reserved.values())
 
@@ -64,7 +67,8 @@ t_DOIS_PONTOS = r':'
 t_VIRGULA = r','
 t_PONTO_E_VIRGULA = r';'
 t_COLCHETE_ESQ = r'\['  
-t_COLCHETE_DIR = r'\]'  
+t_COLCHETE_DIR = r'\]' 
+t_PONTO = r'\.' 
 
 # função para os números inteiros
 def t_NUMERO(t):
